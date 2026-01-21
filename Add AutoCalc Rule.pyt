@@ -145,7 +145,7 @@ class autoCalcAcresRule:
 
         #Add attribute rule to calculate acres when a feature is added or edited
         ruleNm = "AutoCalc Acres"
-        ruleExp = "AreaGeodetic($feature, 'acres')"
+        ruleExp = "AreaGeodetic($feature, 'acres', 'ShapePreserving')"
         trgFld = "SHAPE"
         arcpy.management.AddAttributeRule(inputFC, ruleNm, 'CALCULATION', ruleExp, 'EDITABLE', "INSERT;UPDATE", "", "", "", "", fldNm, "", 'NOT_BATCH', "", "", trgFld)
 
