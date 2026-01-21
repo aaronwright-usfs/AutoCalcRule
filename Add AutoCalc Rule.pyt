@@ -322,7 +322,7 @@ class autoCalcFeetRule:
         
         newField = arcpy.Parameter(
             name='new_field',
-            displayName='Create new miles field',
+            displayName='Create new feet field',
             datatype='GPBoolean',
             direction='Input',
             parameterType='Optional'
