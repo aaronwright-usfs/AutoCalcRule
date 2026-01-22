@@ -311,7 +311,7 @@ class autoCalcMilesRule:
 
         #Add attribute rule to calculate miles when a feature is added or edited
         ruleNm = "AutoCalc Miles"
-        ruleExp = "LengthGeodetic($feature, 'miles')"
+        ruleExp = "LengthGeodetic($feature, 'miles', 'ShapePreserving')"
         trgFld = "SHAPE"
         arcpy.management.AddAttributeRule(inputFC, ruleNm, 'CALCULATION', ruleExp, 'EDITABLE', "INSERT;UPDATE", "", "", "", "", fldNm, "", 'NOT_BATCH', "", "", trgFld)
 
@@ -464,7 +464,7 @@ class autoCalcFeetRule:
 
         #Add attribute rule to calculate feet when a feature is added or edited
         ruleNm = "AutoCalc Feet"
-        ruleExp = "LengthGeodetic($feature, 'feet')"
+        ruleExp = "LengthGeodetic($feature, 'feet', 'ShapePreserving')"
         trgFld = "SHAPE"
         arcpy.management.AddAttributeRule(inputFC, ruleNm, 'CALCULATION', ruleExp, 'EDITABLE', "INSERT;UPDATE", "", "", "", "", fldNm, "", 'NOT_BATCH', "", "", trgFld)
 
