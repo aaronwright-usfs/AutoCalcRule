@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Authors: code - Aaron Wright aaron.wright@usda.gov | workflow - Tyler Harris
+# Authors: code - Aaron Wright aaron.wright@usda.gov | initial workflow - Tyler Harris
 # Created 1/07/2026
 
 import arcpy
