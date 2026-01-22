@@ -57,9 +57,17 @@ class autoCalcAcresRule:
             enabled='False'
         )
 
+        initCalc = arcpy.Parameter(
+            name='initialCalculation',
+            displayName='Perform initial calculation on existing features',
+            datatype='GPBoolean',
+            direction='Input',
+            parameterType='Optional'
+        )
+
         nfName.value = 'GIS_Acres'
-        
-        params = [inFc, acresField, newField, nfName]
+
+        params = [inFc, acresField, newField, nfName, initCalc]
         return params
 
     def isLicensed(self):
@@ -132,6 +140,7 @@ class autoCalcAcresRule:
         fldNm = parameters[1].valueAsText
         newFld = parameters[2].value
         newFldNm = parameters[3].valueAsText.replace(' ', '_')
+        inCalc = parameters[4].value
 
         #Check inputFC for Global ID's, if none add Global ID's
         desc = arcpy.Describe(inputFC)
@@ -142,6 +151,10 @@ class autoCalcAcresRule:
         if newFld is True:
             fldNm = newFldNm
             arcpy.management.AddField(inputFC, fldNm, 'Double')
+
+        #If initial calculation is checked, perform calculation on existing features
+        if inCalc is True:
+            arcpy.management.CalculateGeometryAttributes(inputFC, [[fldNm, "AREA_GEODESIC"]], "", "ACRES")
 
         #Add attribute rule to calculate acres when a feature is added or edited
         ruleNm = "AutoCalc Acres"
@@ -197,9 +210,17 @@ class autoCalcMilesRule:
             enabled='False'
         )
 
+        initCalc = arcpy.Parameter(
+            name='initialCalculation',
+            displayName='Perform initial calculation on existing features',
+            datatype='GPBoolean',
+            direction='Input',
+            parameterType='Optional'
+        )
+
         nfName.value = 'GIS_Miles'
         
-        params = [inFc, milesField, newField, nfName]
+        params = [inFc, milesField, newField, nfName, initCalc]
         return params
 
     def isLicensed(self):
@@ -272,6 +293,7 @@ class autoCalcMilesRule:
         fldNm = parameters[1].valueAsText
         newFld = parameters[2].value
         newFldNm = parameters[3].valueAsText.replace(' ', '_')
+        inCalc = parameters[4].value
 
         #Check inputFC for Global ID's, if none add Global ID's
         desc = arcpy.Describe(inputFC)
@@ -282,6 +304,10 @@ class autoCalcMilesRule:
         if newFld is True:
             fldNm = newFldNm
             arcpy.management.AddField(inputFC, fldNm, 'Double')
+
+        #If initial calculation is checked, perform calculation on existing features
+        if inCalc is True:
+            arcpy.management.CalculateGeometryAttributes(inputFC, [[fldNm, "LENGTH_GEODESIC"]], "MILES_INT")
 
         #Add attribute rule to calculate miles when a feature is added or edited
         ruleNm = "AutoCalc Miles"
@@ -337,9 +363,17 @@ class autoCalcFeetRule:
             enabled='False'
         )
 
+        initCalc = arcpy.Parameter(
+            name='initialCalculation',
+            displayName='Perform initial calculation on existing features',
+            datatype='GPBoolean',
+            direction='Input',
+            parameterType='Optional'
+        )
+        
         nfName.value = 'GIS_Feet'
         
-        params = [inFc, FeetField, newField, nfName]
+        params = [inFc, FeetField, newField, nfName, initCalc]
         return params
 
     def isLicensed(self):
@@ -412,6 +446,7 @@ class autoCalcFeetRule:
         fldNm = parameters[1].valueAsText
         newFld = parameters[2].value
         newFldNm = parameters[3].valueAsText.replace(' ', '_')
+        inCalc = parameters[4].value
 
         #Check inputFC for Global ID's, if none add Global ID's
         desc = arcpy.Describe(inputFC)
@@ -422,6 +457,10 @@ class autoCalcFeetRule:
         if newFld is True:
             fldNm = newFldNm
             arcpy.management.AddField(inputFC, fldNm, 'Double')
+
+        #If initial calculation is checked, perform calculation on existing features
+        if inCalc is True:
+            arcpy.management.CalculateGeometryAttributes(inputFC, [[fldNm, "LENGTH_GEODESIC"]], "FEET_INT")
 
         #Add attribute rule to calculate feet when a feature is added or edited
         ruleNm = "AutoCalc Feet"
