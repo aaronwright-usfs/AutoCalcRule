@@ -135,42 +135,33 @@ class autoCalcAcresRule:
 
     def execute(self, parameters, messages):
         """The source code of the tool."""
-        try:
-            #Parameters as variables
-            inputFC = parameters[0].valueAsText
-            fldNm = parameters[1].valueAsText
-            newFld = parameters[2].value
-            newFldNm = parameters[3].valueAsText.replace(' ', '_')
-            inCalc = parameters[4].value
+        #Parameters as variables
+        inputFC = parameters[0].valueAsText
+        fldNm = parameters[1].valueAsText
+        newFld = parameters[2].value
+        newFldNm = parameters[3].valueAsText.replace(' ', '_')
+        inCalc = parameters[4].value
 
-            #Check inputFC for Global ID's, if none add Global ID's
-            desc = arcpy.Describe(inputFC)
-            if desc.hasGlobalID is False:
-                arcpy.management.AddGlobalIDs(inputFC)
-            
-            #If new acres field is checked, define fldNm var from newFldNm, and add field with user defined name
-            if newFld is True:
-                fldNm = newFldNm
-                arcpy.management.AddField(inputFC, fldNm, 'Double')
+        #Check inputFC for Global ID's, if none add Global ID's
+        desc = arcpy.Describe(inputFC)
+        if desc.hasGlobalID is False:
+            arcpy.management.AddGlobalIDs(inputFC)
+        
+        #If new acres field is checked, define fldNm var from newFldNm, and add field with user defined name
+        if newFld is True:
+            fldNm = newFldNm
+            arcpy.management.AddField(inputFC, fldNm, 'Double')
 
-            #If initial calculation is checked, perform calculation on existing features
-            if inCalc is True:
-                arcpy.management.CalculateGeometryAttributes(inputFC, [[fldNm, "AREA_GEODESIC"]], "", "ACRES")
+        #If initial calculation is checked, perform calculation on existing features
+        if inCalc is True:
+            arcpy.management.CalculateGeometryAttributes(inputFC, [[fldNm, "AREA_GEODESIC"]], "", "ACRES")
 
-            #Add attribute rule to calculate acres when a feature is added or edited
-            ruleNm = "AutoCalc Acres"
-            ruleExp = "AreaGeodetic($feature, 'acres', 'ShapePreserving')"
-            trgFld = "SHAPE"
-            arcpy.management.AddAttributeRule(inputFC, ruleNm, 'CALCULATION', ruleExp, 'EDITABLE', "INSERT;UPDATE", "", "", "", "", fldNm, "", 'NOT_BATCH', "", "", trgFld)
-        except arcpy.ExecuteError:
-            severity = arcpy.GetMaxSeverity()
-            if severity == 2:
-                print("Error occurred \n{0}".format(arcpy.GetMessages(2)))
-            elif severity == 1:
-                print("Warning raised \n{0}".format(arcpy.GetMessages(1)))
-            else:
-                # If the tool did not return an error or a warning
-                print(arcpy.GetMessages())
+        #Add attribute rule to calculate acres when a feature is added or edited
+        ruleNm = "AutoCalc Acres"
+        ruleExp = "AreaGeodetic($feature, 'acres', 'ShapePreserving')"
+        trgFld = "SHAPE"
+        arcpy.management.AddAttributeRule(inputFC, ruleNm, 'CALCULATION', ruleExp, 'EDITABLE', "INSERT;UPDATE", "", "", "", "", fldNm, "", 'NOT_BATCH', "", "", trgFld)
+
         return
 
     def postExecute(self, parameters):
@@ -297,42 +288,33 @@ class autoCalcMilesRule:
 
     def execute(self, parameters, messages):
         """The source code of the tool."""
-        try:
-            #Parameters as variables
-            inputFC = parameters[0].valueAsText
-            fldNm = parameters[1].valueAsText
-            newFld = parameters[2].value
-            newFldNm = parameters[3].valueAsText.replace(' ', '_')
-            inCalc = parameters[4].value
+        #Parameters as variables
+        inputFC = parameters[0].valueAsText
+        fldNm = parameters[1].valueAsText
+        newFld = parameters[2].value
+        newFldNm = parameters[3].valueAsText.replace(' ', '_')
+        inCalc = parameters[4].value
 
-            #Check inputFC for Global ID's, if none add Global ID's
-            desc = arcpy.Describe(inputFC)
-            if desc.hasGlobalID is False:
-                arcpy.management.AddGlobalIDs(inputFC)
-            
-            #If new acres field is checked, define fldNm var from newFldNm, and add field with user defined name
-            if newFld is True:
-                fldNm = newFldNm
-                arcpy.management.AddField(inputFC, fldNm, 'Double')
+        #Check inputFC for Global ID's, if none add Global ID's
+        desc = arcpy.Describe(inputFC)
+        if desc.hasGlobalID is False:
+            arcpy.management.AddGlobalIDs(inputFC)
+        
+        #If new acres field is checked, define fldNm var from newFldNm, and add field with user defined name
+        if newFld is True:
+            fldNm = newFldNm
+            arcpy.management.AddField(inputFC, fldNm, 'Double')
 
-            #If initial calculation is checked, perform calculation on existing features
-            if inCalc is True:
-                arcpy.management.CalculateGeometryAttributes(inputFC, [[fldNm, "LENGTH_GEODESIC"]], "MILES_INT")
+        #If initial calculation is checked, perform calculation on existing features
+        if inCalc is True:
+            arcpy.management.CalculateGeometryAttributes(inputFC, [[fldNm, "LENGTH_GEODESIC"]], "MILES_INT")
 
-            #Add attribute rule to calculate miles when a feature is added or edited
-            ruleNm = "AutoCalc Miles"
-            ruleExp = "LengthGeodetic($feature, 'miles', 'ShapePreserving')"
-            trgFld = "SHAPE"
-            arcpy.management.AddAttributeRule(inputFC, ruleNm, 'CALCULATION', ruleExp, 'EDITABLE', "INSERT;UPDATE", "", "", "", "", fldNm, "", 'NOT_BATCH', "", "", trgFld)
-        except arcpy.ExecuteError:
-            severity = arcpy.GetMaxSeverity()
-            if severity == 2:
-                print("Error occurred \n{0}".format(arcpy.GetMessages(2)))
-            elif severity == 1:
-                print("Warning raised \n{0}".format(arcpy.GetMessages(1)))
-            else:
-                # If the tool did not return an error or a warning
-                print(arcpy.GetMessages())
+        #Add attribute rule to calculate miles when a feature is added or edited
+        ruleNm = "AutoCalc Miles"
+        ruleExp = "LengthGeodetic($feature, 'miles', 'ShapePreserving')"
+        trgFld = "SHAPE"
+        arcpy.management.AddAttributeRule(inputFC, ruleNm, 'CALCULATION', ruleExp, 'EDITABLE', "INSERT;UPDATE", "", "", "", "", fldNm, "", 'NOT_BATCH', "", "", trgFld)
+
         return
 
     def postExecute(self, parameters):
@@ -459,42 +441,33 @@ class autoCalcFeetRule:
 
     def execute(self, parameters, messages):
         """The source code of the tool."""
-        try:
-            #Parameters as variables
-            inputFC = parameters[0].valueAsText
-            fldNm = parameters[1].valueAsText
-            newFld = parameters[2].value
-            newFldNm = parameters[3].valueAsText.replace(' ', '_')
-            inCalc = parameters[4].value
+        #Parameters as variables
+        inputFC = parameters[0].valueAsText
+        fldNm = parameters[1].valueAsText
+        newFld = parameters[2].value
+        newFldNm = parameters[3].valueAsText.replace(' ', '_')
+        inCalc = parameters[4].value
 
-            #Check inputFC for Global ID's, if none add Global ID's
-            desc = arcpy.Describe(inputFC)
-            if desc.hasGlobalID is False:
-                arcpy.management.AddGlobalIDs(inputFC)
-            
-            #If new acres field is checked, define fldNm var from newFldNm, and add field with user defined name
-            if newFld is True:
-                fldNm = newFldNm
-                arcpy.management.AddField(inputFC, fldNm, 'Double')
+        #Check inputFC for Global ID's, if none add Global ID's
+        desc = arcpy.Describe(inputFC)
+        if desc.hasGlobalID is False:
+            arcpy.management.AddGlobalIDs(inputFC)
+        
+        #If new acres field is checked, define fldNm var from newFldNm, and add field with user defined name
+        if newFld is True:
+            fldNm = newFldNm
+            arcpy.management.AddField(inputFC, fldNm, 'Double')
 
-            #If initial calculation is checked, perform calculation on existing features
-            if inCalc is True:
-                arcpy.management.CalculateGeometryAttributes(inputFC, [[fldNm, "LENGTH_GEODESIC"]], "FEET_INT")
+        #If initial calculation is checked, perform calculation on existing features
+        if inCalc is True:
+            arcpy.management.CalculateGeometryAttributes(inputFC, [[fldNm, "LENGTH_GEODESIC"]], "FEET_INT")
 
-            #Add attribute rule to calculate feet when a feature is added or edited
-            ruleNm = "AutoCalc Feet"
-            ruleExp = "LengthGeodetic($feature, 'feet', 'ShapePreserving')"
-            trgFld = "SHAPE"
-            arcpy.management.AddAttributeRule(inputFC, ruleNm, 'CALCULATION', ruleExp, 'EDITABLE', "INSERT;UPDATE", "", "", "", "", fldNm, "", 'NOT_BATCH', "", "", trgFld)
-        except arcpy.ExecuteError:
-            severity = arcpy.GetMaxSeverity()
-            if severity == 2:
-                print("Error occurred \n{0}".format(arcpy.GetMessages(2)))
-            elif severity == 1:
-                print("Warning raised \n{0}".format(arcpy.GetMessages(1)))
-            else:
-                # If the tool did not return an error or a warning
-                print(arcpy.GetMessages())
+        #Add attribute rule to calculate feet when a feature is added or edited
+        ruleNm = "AutoCalc Feet"
+        ruleExp = "LengthGeodetic($feature, 'feet', 'ShapePreserving')"
+        trgFld = "SHAPE"
+        arcpy.management.AddAttributeRule(inputFC, ruleNm, 'CALCULATION', ruleExp, 'EDITABLE', "INSERT;UPDATE", "", "", "", "", fldNm, "", 'NOT_BATCH', "", "", trgFld)
+
         return
 
     def postExecute(self, parameters):
